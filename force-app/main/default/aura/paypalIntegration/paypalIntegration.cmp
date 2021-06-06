@@ -1,0 +1,96 @@
+<aura:component controller ="paypalIntegration"  implements="flexipage:availableForAllPageTypes,lightning:isUrlAddressable" access="global">
+   	
+   	<aura:attribute name="id" type="String"/>
+    <aura:attribute name="tokenId" type="String"/>
+    <aura:attribute name="transactionDetails" type="List"/>
+    <aura:attribute name="transactionDetailsMap" type="Map" />
+    <aura:attribute name="Val" default="false" type="Boolean" />
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+     {!v.pageReference.state.testAttribute}-->
+    <button class="slds-button slds-button_brand" onclick="{!c.handleClick}">Pay</button>
+    <button class="slds-button slds-button_brand" onclick="{!c.executeID}">Show Payment Details</button>
+    <aura:if isTrue="{!v.Val}">
+    <div class="slds-box">
+  
+		<div > PaymentID :  {!v.transactionDetailsMap.id}</div>        
+        <div > Intent :  {!v.transactionDetailsMap.intent}</div>
+        <div > state :  {!v.transactionDetailsMap.state}</div>
+        <div > Cart :  {!v.transactionDetailsMap.cart}</div>
+        <div > payment_method :  {!v.transactionDetailsMap.payer.payment_method}</div>
+        <div > status :  {!v.transactionDetailsMap.payer.status}</div>
+        <div > create_time :  {!v.transactionDetailsMap.create_time}</div>
+        <Br></Br>
+        
+        
+        <aura:iteration items="{!v.transactionDetailsMap.transactions}" var="value">
+            	<div> Amount </div>
+            	<ul class="slds-list_dotted">
+              	<li >  Total : {!value.amount.total}</li>
+            	<li >  currency : {!value.amount.currency}</li>
+                </ul>
+            	<div> Payee </div>
+           		<ul class="slds-list_dotted">
+            	<li >  merchant_id : {!value.payee.merchant_id}</li>
+            	<li >  email : {!value.payee.email}</li>
+            	</ul>
+            	
+            	<div> Invocie Number : {!value.invoice_number}</div>
+            	
+            	<div> Items List</div>
+            		<aura:iteration items="{!value.item_list.items}" var="it" indexVar="i">
+                        <div> Item Number {!i+1}</div>
+                        <ul class="slds-list_dotted">
+                            <li> Name : {!it.name}</li>
+                            <li> description : {!it.description}</li>
+                            <li> price : {!it.price}</li>
+                            <li> tax : {!it.tax}</li>
+                            <li> Quantity : {!it.quantity}</li>
+                            
+                        </ul>
+                         <Br></Br>
+                         
+                        
+                        
+            		</aura:iteration>
+            	
+            <div> Shipping Details :</div>
+            <ul class="slds-list_dotted">
+                <li> recipient_name : {!value.item_list.shipping_address.recipient_name}</li>
+                <li> Address : {!value.item_list.shipping_address.line1 }, {!value.item_list.shipping_address.line2}</li>
+                <li> city : {!value.item_list.shipping_address.city}</li>
+                <li> state : {!value.item_list.shipping_address.state}</li>
+                <li> postal_code : {!value.item_list.shipping_address.postal_code}</li>
+                <li> country_code : {!value.item_list.shipping_address.country_code}</li>
+                <li> Phone number : {!value.item_list.shipping_phone_number}</li>
+            </ul>
+            
+            		
+            	
+            	
+            
+            
+          </aura:iteration>
+        
+        
+        <!--<div > total :  {!v.transactionDetailsMap.transactions.amount.total}</div>-->
+        
+        
+        
+         <!--
+	<aura:if isTrue="{!v.Val}"> -->
+          <!--Note the use of the special value provider that allows Map iteration-->
+         <!-- <aura:iteration items="{!v.transactionDetailsMap}" var="value">
+              <div >{!value.intent}</div>
+          </aura:iteration>-->
+      <!--</aura:if>-->
+        <!--
+        <aura:iteration items="{!v.transactionDetails}" var="Interl">
+        	
+            <Br></Br>{!Interl} 
+        
+        </aura:iteration>
+		-->
+        
+        </div>
+        </aura:if>
+</aura:component>
